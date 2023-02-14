@@ -25,7 +25,7 @@ commits-count:
         with:
           fetch-depth: 0
       - name: commits-count
-        uses: pax217/pr-commits-count@v1.0
+        uses: fcarrero/pr-commits-count@v1.0
         with:
           except-branches: 'main;master;release'
 ```
