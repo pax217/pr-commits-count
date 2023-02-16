@@ -51,7 +51,7 @@ async function getCommitsCount(sourceBranch, targetBranch) {
 
     core.info(src)
 
-    await exec.exec(`sh ${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
+    await exec.exec(`${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
     if (err) {
         core.setFailed(err);
     } else {
