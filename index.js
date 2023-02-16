@@ -1,5 +1,6 @@
 const core = require('@actions/core');
-const exec = require("@actions/exec");
+//const exec = require("@actions/exec");
+var exec = require('child_process').exec;
 const github = require("@actions/github");
 const src = __dirname;
 const messages = {};
@@ -48,7 +49,29 @@ async function getCommitsCount(sourceBranch, targetBranch) {
         },
     };
     core.info(src)
-    await exec.exec(`node ${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
+    //await exec.exec(`node ${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
+
+
+    function os_func() {
+        this.execCommand = function(cmd, callback) {
+            exec(cmd, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`exec error: ${error}`);
+                    return;
+                }
+
+                callback(stdout);
+            });
+        }
+    }
+
+    var os = new os_func();
+
+    os.execCommand(`${src}/commits-count.sh ${sourceBranch} ${targetBranch}`, function (returnvalue) {
+        // Here you can get the return value
+        console.log(returnvalue)
+    });
+
     if (err) {
         core.setFailed(err);
     } else {
