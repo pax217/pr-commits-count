@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const exec = require("@actions/exec");
 const github = require("@actions/github");
 const src = __dirname;
+const fs = require('fs')
 const messages = {};
 messages.exceptList = 'target branch is in except list. Check was skipped';
 messages.squash = 'Only 1 commit is possible in pull request. Please squash your commits';
@@ -47,8 +48,10 @@ async function getCommitsCount(sourceBranch, targetBranch) {
             }
         },
     };
+
     core.info(src)
-    await exec.exec(`${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
+
+    await exec.exec(`sh ${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
     if (err) {
         core.setFailed(err);
     } else {
