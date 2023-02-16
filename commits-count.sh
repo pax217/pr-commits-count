@@ -1,5 +1,3 @@
-#!/bin/bash
-#set -eou pipefail
 
 source=$1
 target=$2
