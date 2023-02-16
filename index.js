@@ -2,15 +2,14 @@ const core = require('@actions/core');
 const exec = require("@actions/exec");
 const github = require("@actions/github");
 const src = __dirname;
-const fs = require('fs')
 const messages = {};
 messages.exceptList = 'target branch is in except list. Check was skipped';
 messages.squash = 'Only 1 commit is possible in pull request. Please squash your commits';
 messages.backport = 'source branch is backport. Check was skipped';
 
 try {
-    const targetBranch = "feature/transport-echo-validations" //github.context.payload.pull_request.base.ref
-    const sourceBranch = "main"//github.context.payload.pull_request.head.ref
+    const targetBranch = github.context.payload.pull_request.base.ref
+    const sourceBranch = github.context.payload.pull_request.head.ref
     const exceptBranches = core.getInput('except-branches').split(';');
     const commitsCount = Number.parseInt(core.getInput('commits-count'));
 
@@ -48,9 +47,7 @@ async function getCommitsCount(sourceBranch, targetBranch) {
             }
         },
     };
-
     core.info(src)
-
     await exec.exec(`node ${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
     if (err) {
         core.setFailed(err);
