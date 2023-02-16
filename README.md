@@ -29,3 +29,9 @@ commits-count:
         with:
           except-branches: 'main;master;release'
 ```
+
+## File Permissions
+- Ejecutar permisos para el archivo 
+```sh
+    git update-index --chmod=+x commits-count.sh
+```
