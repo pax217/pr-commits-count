@@ -8,8 +8,11 @@ messages.squash = 'Only 1 commit is possible in pull request. Please squash your
 messages.backport = 'source branch is backport. Check was skipped';
 
 try {
-    const targetBranch = github.context.payload.pull_request.base.ref
-    const sourceBranch = github.context.payload.pull_request.head.ref
+    const payload = core.getInput('payload') ;
+    const jsonPayload = JSON.parse(payload);
+
+    const targetBranch = jsonPayload.pull_request.base.ref
+    const sourceBranch = jsonPayload.pull_request.head.ref
     const exceptBranches = core.getInput('except-branches').split(';');
     const commitsCount = Number.parseInt(core.getInput('commits-count'));
 
