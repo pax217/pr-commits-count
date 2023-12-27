@@ -26,7 +26,7 @@ try {
         core.info(messages.exceptList);
     } else {
         // check commit count
-        const commitsOnPr = parseInt(jsonPayload.commits)
+        const commitsOnPr = parseInt(jsonPayload.pull_request.commits)
 
         core.info(`commitsOnPr: ${commitsOnPr}`);
         core.info(`commitsCount: ${commitsCount}`);
