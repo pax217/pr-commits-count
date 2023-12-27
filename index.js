@@ -27,6 +27,9 @@ try {
     } else {
         // check commit count
         const commitsOnPr = parseInt(jsonPayload.commits)
+
+        core.info(`commitsOnPr: ${commitsOnPr}`);
+        core.info(`commitsCount: ${commitsCount}`);
         if (commitsOnPr>commitsCount){
             core.setFailed(`Commits number ${commitsOnPr} only allowed  ${commitsCount}`);
             return
