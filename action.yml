@@ -1,5 +1,6 @@
-name: 'PR Commits Count'
-description: 'Action to checks the count of commits in pull request.'
+name: 'Commit Count'
+description: 'Github action to enforce naming convention on branch names'
+author: 'pax217'
 inputs:
   except-branches:  # id of input
     description: 'Excepted target branches (possible to pass multiple branches separated by ;)'
@@ -9,5 +10,8 @@ inputs:
     required: false
     default: 1
 runs:
-  using: 'node16'
+  using: 'node12'
   main: 'index.js'
+branding:
+  icon: 'alert-triangle'
+  color: 'gray-dark'

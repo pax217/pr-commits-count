@@ -25,37 +25,14 @@ try {
     if (pattern) {
         core.info(messages.exceptList);
     } else {
-        getCommitsCount(sourceBranch, targetBranch)
-            .then(currentCommitsCount => {
-                if (currentCommitsCount > commitsCount) {
-                    core.setFailed(messages.squash);
-                }
-            });
+        // check commit count
+        const commitsOnPr = parseInt(jsonPayload.commits)
+        if (commitsOnPr>commitsCount){
+            core.setFailed(`Commits number ${commitsOnPr} only allowed  ${commitsCount}`);
+            return
+        }
     }
 
 } catch (error) {
     core.setFailed(error.message);
-}
-
-async function getCommitsCount(sourceBranch, targetBranch) {
-    let out = '';
-    let err = '';
-    const options = {
-        listeners: {
-            stdout: (data) => {
-                out += data.toString();
-            },
-            stderr: (data) => {
-                err += data.toString();
-            }
-        },
-    };
-    core.info(`src: ${src}`);
-
-    await exec.exec(`${src}/commits-count.sh`, [sourceBranch, targetBranch], options);
-    if (err) {
-        core.setFailed(err);
-    } else {
-        return Number.parseInt(out.trim());
-    }
 }
